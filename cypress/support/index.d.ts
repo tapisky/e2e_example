@@ -3,7 +3,7 @@
 declare namespace Cypress {
     interface Chainable<Subject> {
       /**
-       * Going to the main page and dismiss modal by clicking on "AGREE"
+       * Dismiss modal by setting the required cookie and localStorage. Then, visit the main page
        * @example
        * cy.prepareEnv()
        */
