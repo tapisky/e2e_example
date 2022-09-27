@@ -1,37 +1,14 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-
-Cypress.Commands.add('dismissModal', () => {
-    // Tried to dismiss modal by setting the right cookie (apparently "euconsent-v2"), but I could not make it work
-    // cy.setCookie('euconsent-v2', 'CPf6TMAPf6TMAAKAsAENCiCsAP_AAH_AACiQJAABIAZkQABBICACAAAAAAAAAAAAQIAAAABAAAAAFCAAAAAAAAAAAEAAEAgAAAAAAAAAIAAAAAAAAEAAAgAABgAAAAAQAAAAAAAAAAAAAAAAAAAAAAogAAAAACAQAAAAgAAAAAAAEAAAAAAAAAQAACAe_vCfV5_9jfn9fR_789KP9_58v-_8_____3____3_79wSAAAAASIgACIAEEAAAAAAAAAAAAAgQAAAAAAAAAAKAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAIBAAAAAAAAAAAAAABRAAAAAAAAAAAABAAAAAAAAIAAAAAAAQAAAAEAKDRGxUACJJARSAAJCwcAwRICViwQNMUb5ACMEKAUSoVgAA.diAACdgAAAAA');
-    // Dismiss modal by clicking on "AGREE"
+Cypress.Commands.add('prepareEnv', () => {
+    // Dismiss modal by setting cookies and localStorage
+    cy.setCookie(
+        'euconsent-v2',
+        'CPf9mIAPf9mIAAKAsAENCiCsAP_AAH_AACiQJAABIAZkQABBICACAAAAAAAAAAAAQIAAAABAAAAAFCAAAAAAAAAAAEAAEAgAAAAAAAAAIAAAAAAAAEAAAgAABgAAAAAQAAAAAAAAAAAAAAAAAAAAAAogAAAAACAQAAAAgAAAAAAAEAAAAAAAAAQAACAe_vCfV5_9jfn9fR_789KP9_58v-_8_____3____3_79wSAAAAASIgACIAEEAAAAAAAAAAAAAgQAAAAAAAAAAKAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAIBAAAAAAAAAAAAAABRAAAAAAAAAAAABAAAAAAAAIAAAAAAAQAAAAEAKDRGxUACJJARSAAJCwcAwRICViwQNMUb5ACMEKAUSoVgAA.diAACdgAAAAA',
+        { domain: '.www.gamesforthebrain.com', secure: true, sameSite: 'lax' });
+    window.localStorage.setItem(
+        '_cmpRepromptHash',
+        'CPf9mIAPf9mIAAKAsAENCiCsAP_AAH_AACiQJAABIAZkQABBICACAAAAAAAAAAAAQIAAAABAAAAAFCAAAAAAAAAAAEAAEAgAAAAAAAAAIAAAAAAAAEAAAgAABgAAAAAQAAAAAAAAAAAAAAAAAAAAAAogAAAAACAQAAAAgAAAAAAAEAAAAAAAAAQAACAe_vCfV5_9jfn9fR_789KP9_58v-_8_____3____3_79wSAAAAASIgACIAEEAAAAAAAAAAAAAgQAAAAAAAAAAKAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAIBAAAAAAAAAAAAAABRAAAAAAAAAAAABAAAAAAAAIAAAAAAAQAAAAEAKDRGxUACJJARSAAJCwcAwRICViwQNMUb5ACMEKAUSoVgAA.diAACdgAAAAA.1.wejOlDtDzn0yPjFFG10tVg==');
+    // Visit page
     cy.visit('/');
-    if(cy.get('div[id="qc-cmp2-ui"]', {timeout:30000})) {
-      cy.get('button[mode="primary"]').should('be.visible').then(($el) => { $el.click() });
-    }
 })
 
 Cypress.Commands.add('makeMoves', (moves) => {
@@ -40,6 +17,7 @@ Cypress.Commands.add('makeMoves', (moves) => {
     moves.forEach(function(coords) {
         cy.get(`img[name="space${coords[0]}${coords[1]}"]`).should('not.be.disabled').then(($el) => { $el.click() });
     });
-    // Allow some time for comp to move (tried other "more robust" ways but couldn't find an elegant solution)
+    // Allow some time after moving for comp calculations (tried other "more robust" ways but did not work properly)
+    // This might fail if com takes more than 3s to calculate and perform moves
     cy.wait(3000);
 })

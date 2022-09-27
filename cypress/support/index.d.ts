@@ -3,11 +3,11 @@
 declare namespace Cypress {
     interface Chainable<Subject> {
       /**
-       * Dismiss modal by clicking on "AGREE"
+       * Going to the main page and dismiss modal by clicking on "AGREE"
        * @example
-       * cy.dismissModal()
+       * cy.prepareEnv()
        */
-      dismissModal(): Chainable<any>
+      prepareEnv(): Chainable<any>
     }
     interface Chainable<Subject> {
       /**
