@@ -29,7 +29,7 @@ Cypress.Commands.add('dismissModal', () => {
     // cy.setCookie('euconsent-v2', 'CPf6TMAPf6TMAAKAsAENCiCsAP_AAH_AACiQJAABIAZkQABBICACAAAAAAAAAAAAQIAAAABAAAAAFCAAAAAAAAAAAEAAEAgAAAAAAAAAIAAAAAAAAEAAAgAABgAAAAAQAAAAAAAAAAAAAAAAAAAAAAogAAAAACAQAAAAgAAAAAAAEAAAAAAAAAQAACAe_vCfV5_9jfn9fR_789KP9_58v-_8_____3____3_79wSAAAAASIgACIAEEAAAAAAAAAAAAAgQAAAAAAAAAAKAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAIBAAAAAAAAAAAAAABRAAAAAAAAAAAABAAAAAAAAIAAAAAAAQAAAAEAKDRGxUACJJARSAAJCwcAwRICViwQNMUb5ACMEKAUSoVgAA.diAACdgAAAAA');
     // Dismiss modal by clicking on "AGREE"
     cy.visit('/');
-    if(cy.get('div[id="qc-cmp2-ui"]', {timeout:10000})) {
+    if(cy.get('div[id="qc-cmp2-ui"]', {timeout:30000})) {
       cy.get('button[mode="primary"]').should('be.visible').then(($el) => { $el.click() });
     }
 })
